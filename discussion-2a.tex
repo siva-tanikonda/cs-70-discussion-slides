@@ -1,0 +1,393 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 2A}
+\date{September 11, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Stable Matching}
+    {\bf Problem}: We have $n$ jobs and $n$ candidates. Each job contains an ordered preference list of all $n$ candidates, and each candidate has an ordered preference list of all $n$ jobs.
+    \begin{center}
+        Ex: 
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $A>B>C$\\
+            $2$ & $B>A>C$\\
+            $3$ & $A>B>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    We want to create a matching of jobs and candidates such that:
+    \begin{enumerate}
+        \item There are no unmatched jobs or candidates and each job/candidate participates in only one pair.
+        \item We have no {\bf rogue couples} (i.e. a job and a candidate who are not paired together but would both prefer to be with each other instead of who they are currently paired with).
+    \end{enumerate}
+    An example of a stable matching of the above preferences is $(A,2),(B,1),(C,3)$.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject Algorithm}
+    {\bf Problem}: How do we generate a stable matching given a set of preferences?\\
+    {\bf Algorithm}: The {\bf Propose-and-Reject Algorithm} produces a stable matching from a given set of preferences. The algorithm consists of running the following steps once each ``day'' until termination:
+    \begin{enumerate}[1.]
+        \item Each job sends an offer to its top candidate that hasn't rejected them yet
+        \item Each candidate rejects all but their favorite job among the offers it got today
+        \item If there were no rejections today, then we have constructed a stable matching and our algorithm is done running
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $A>B>C$\\
+            $2$ & $B>A>C$\\
+            $3$ & $A>B>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    {\bf Day 1} (Jobs Propose)
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $A>B>C$\\
+            $2$ & $B>A>C$\\
+            $3$ & $A>B>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Candidate & Offers \\
+            \hline
+            $A$ & $1,3$ \\
+            $B$ & $2$ \\
+            $C$ & 
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    {\bf Day 1} (Candidates Reject)
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $A>B>C$\\
+            $2$ & $B>A>C$\\
+            $3$ & $\cancel{A}>B>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Candidate & Offers \\
+            \hline
+            $A$ & $1,\cancel{3}$ \\
+            $B$ & $2$ \\
+            $C$ & 
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    {\bf Day 2} (Jobs Propose)
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $A>B>C$\\
+            $2$ & $B>A>C$\\
+            $3$ & $\cancel{A}>B>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Candidate & Offers \\
+            \hline
+            $A$ & $1$ \\
+            $B$ & $2,3$ \\
+            $C$ & 
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    {\bf Day 2} (Candidates Reject)
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $A>B>C$\\
+            $2$ & $\cancel{B}>A>C$\\
+            $3$ & $\cancel{A}>B>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Candidate & Offers \\
+            \hline
+            $A$ & $1$ \\
+            $B$ & $\cancel{2},3$ \\
+            $C$ & 
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    {\bf Day 3} (Jobs Propose)
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $A>B>C$\\
+            $2$ & $\cancel{B}>A>C$\\
+            $3$ & $\cancel{A}>B>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Candidate & Offers \\
+            \hline
+            $A$ & $1,2$ \\
+            $B$ & $3$ \\
+            $C$ & 
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    {\bf Day 3} (Candidates Reject)
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $\cancel{A}>B>C$\\
+            $2$ & $\cancel{B}>A>C$\\
+            $3$ & $\cancel{A}>B>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Candidate & Offers \\
+            \hline
+            $A$ & $\cancel{1},2$ \\
+            $B$ & $3$ \\
+            $C$ & 
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    {\bf Day 4} (Jobs Propose)
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $\cancel{A}>B>C$\\
+            $2$ & $\cancel{B}>A>C$\\
+            $3$ & $\cancel{A}>B>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Candidate & Offers \\
+            \hline
+            $A$ & $2$ \\
+            $B$ & $3,1$ \\
+            $C$ & 
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    {\bf Day 4} (Candidates Reject)
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $\cancel{A}>B>C$\\
+            $2$ & $\cancel{B}>A>C$\\
+            $3$ & $\cancel{A}>\cancel{B}>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Candidate & Offers \\
+            \hline
+            $A$ & $2$ \\
+            $B$ & $\cancel{3},1$ \\
+            $C$ & 
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    {\bf Day 5} (Jobs Propose)
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $\cancel{A}>B>C$\\
+            $2$ & $\cancel{B}>A>C$\\
+            $3$ & $\cancel{A}>\cancel{B}>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Candidate & Offers \\
+            \hline
+            $A$ & $2$ \\
+            $B$ & $1$ \\
+            $C$ & $3$
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propose-and-Reject (Example)}
+    {\bf Day 5} (Candidates Reject)
+    \begin{center}
+        \begin{tabular}{c|c}
+            Job & Preferences \\
+            \hline
+            $1$ & $\cancel{A}>B>C$\\
+            $2$ & $\cancel{B}>A>C$\\
+            $3$ & $\cancel{A}>\cancel{B}>C$
+        \end{tabular}
+        \hspace{10pt}
+        \begin{tabular}{c|c}
+            Candidate & Preferences \\
+            \hline
+            $A$ & $2>1>3$\\
+            $B$ & $1>3>2$\\
+            $C$ & $1>2>3$
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{c|c}
+            Candidate & Offers \\
+            \hline
+            $A$ & $2$ \\
+            $B$ & $1$ \\
+            $C$ & $3$
+        \end{tabular}\\
+        \vspace{10pt}
+        No Rejections! Our algorithm is done running after $5$ days.
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Additional Notes}
+    \begin{itemize}
+        \item Propose-and-Reject just produces one of the possibly several stable matchings (i.e. there can be more stable matchings than what the algorithm may output).
+        \item Propose-and-Reject produces the {\bf job-optimal} (each job is paired with the best possible candidate it can be paired with among all stable pairings) and {\bf candidate-pessimal} (each candidate is paired with the worst possible job it can be paired with among all stable pairings) matching.
+        \item If you have candidates propose instead of the jobs, you get the {\bf candidate-optimal} and {\bf job-pessimal} matching.
+    \end{itemize}
+\end{frame}
+
+\end{document}

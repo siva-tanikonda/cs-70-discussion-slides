@@ -1,0 +1,77 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 6A}
+\date{October 8, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Counting}
+    {\bf Problem}: We want to count the number of scenarios/configurations that satisfy a particular condition.
+    {\bf Common Variants}:\begin{itemize}
+        \item Count the number of ways to pick $k$ objects from a set of $n$ objects {\it with replacement} and where {\it order matters}.
+        \item Count the number of ways to pick $k$ objects from a set of $n$ objects {\it without replacement} and where {\it order matters}.
+        \item Count the number of ways to pick $k$ objects from a set of $n$ objects {\it without replacement} and where {\it order doesn't matter}.
+        \item Count the number of ways to pick $k$ objects from a set of $n$ objects {\it with replacement} and where {\it order doesn't matter}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{With Replacement + Order Matters}
+    We are essentially creating a sequence of length $k$ where each element is a value in $\{1,2,...,n\}$. The idea is as follows:
+    \begin{enumerate}
+        \item We have $n$ options for each element in the sequence.
+        \item We have $n$ possible sequences of length $k=1$.
+        \item We have $n^2$ possible sequences of length $k=2$.
+        \item $\vdots$
+        \item We have $n^k$ possible sequences of length $k$.
+    \end{enumerate}
+    So, $\boxed{n^k}$ is the answer.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Without Replacement + Order Matters}
+    We are still making a sequence of length $k$, but we now can't reuse values! Therefore:
+    \begin{enumerate}
+        \item We have $n$ options for the first element in the sequence.
+        \item For our second element, we cannot use the same value as we used in the first element, so we have $n-1$ options here.
+        \item We have $n$ possible sequences of length $k=1$.
+        \item We have $n(n-1)$ possible sequences of length $k=2$.
+        \item We have $n(n-1)(n-2)$ possible sequences of length $k=3$.
+        \item $\vdots$
+        \item We have $\boxed{\frac{n!}{(n-k)!}=\prod_{i=n-k+1}^ni}$ sequences of length $k$.
+    \end{enumerate}
+    {\it Note: $n!=1\times 2\times 3\times...\times n$}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Without Replacement + Order Doesn't Matter}
+    How many different {\it sets} (order doesn't matter for sets, and no duplicate elements can be in sets) of $k$ elements can we find? Notation ($n$ {\it choose} $k$):
+    \begin{align*}
+        \boxed{\binom{n}{k}}=\frac{n!}{k!(n-k)!}=\text{\# of sets of $k$ values from $n$ values}
+    \end{align*}
+    The reasoning is that we divide the order matters case by $k!$ to not consider all different permutations of every sequence of $k$ unique elements (i.e. $\{1,2,3\}\equiv\{3,1,2\}\equiv\dots$).
+\end{frame}
+
+\begin{frame}
+    \frametitle{With Replacement + Order Doesn't Matter}
+    A sequence where order doesn't matter is uniquely defined by the number of elements of each value that are present in the sequence.\\
+    {\it Key Observation}: Both of these values are equivalent:
+    \begin{itemize}
+        \item Number of ways to create a sequence of length $k$ where order doesn't matter and values in $\{1,2,...,n\}$ can be reused
+        \item Number of ways to distribute $k$ identical balls among $n$ bins
+    \end{itemize}
+    {\bf Balls-and-Bins}: We have $k+n-1$ positions. Insert $n-1$ dividers at different positions. Now, we have divided our $k$ indices into $n$ groups. Here is an example for $n=4$ and $k=4$:
+    \begin{gather*}
+        \star|\star\star|\star|\equiv 1,2,2,3
+    \end{gather*}
+    This solves our problem:
+    \begin{gather*}
+        \boxed{\binom{k+n-1}{n-1}}=\text{\# of ways to split $k$ identical balls among $n$ bins}
+    \end{gather*}
+\end{frame}
+
+\end{document}

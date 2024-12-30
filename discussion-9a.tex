@@ -1,0 +1,30 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 9A}
+\date{October 30, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Union Bound}
+    {\bf Problem}: For a set of events $A_1,A_2,\dots,A_n$, how do we {\it upper-bound} $\mathbb{P}\left[\bigcup_{i=1}^n A_i\right]$ without having to use the Principle of Inclusion-Exclusion?\\
+    {\bf Solution}: We use the {\bf union-bound}, which states that in all cases:
+    \begin{gather*}
+        \mathbb{P}\left[\bigcup_{i=1}^nA_i\right]\leq\sum_{i=1}^n\mathbb{P}[A_i]
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Symmetry}
+    {\bf Problem}: Consider a discrete sample space $\Omega$. We have an event $A$ for which we want to find $\mathbb{P}[A]$. How do we use the probability $\mathbb{P}[B]$ of some other event $B$ to help us?\\
+    {\bf Solution}: Find a {\it bijective} function $f:A\rightarrow B$ that also satisfies the property:
+    \begin{gather*}
+        (\forall\omega\in A)(\mathbb{P}[\omega]=\mathbb{P}[f(\omega)])
+    \end{gather*}
+    If we manage to find such a function, we can then conclude that $\mathbb{P}[A]=\mathbb{P}[B]$.
+\end{frame}
+
+\end{document}

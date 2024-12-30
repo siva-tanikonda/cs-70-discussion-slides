@@ -1,0 +1,74 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 11B}
+\date{November 15, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Markov's Inequality}
+    {\bf Problem}: If I can't calculate the exact probability that a random variable $X$ takes some range of values, how can I easily upper-bound the probability?\\
+    {\bf Solution}: For any {\it non-negative} random variable $X$ and constant $c>0$, {\bf Markov's Inequality} always holds:
+    \begin{align*}
+        \mathbb{P}[X\geq c]\leq\frac{\mathbb{E}[X]}{c}
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Chebyshev's Inequality}
+    {\bf Problem}: I want a stronger, two-sided bound of a probability (i.e. I want to upper-bound the probability that $X$ deviates from its mean $\mathbb{E}[X]$ by at least some value).\\
+    {\bf Solution}: For any random variable $X$ with $\mathbb{E}[X]<\infty$ and constant $c>0$:
+    \begin{align*}
+        \mathbb{P}[|X-\mathbb{E}[X]|\geq c]\leq\frac{\text{Var}(X)}{c^2}
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Confidence Intervals}
+    {\bf Problem}: I have some distribution with variance $\leq\sigma^2$ and unknown expectation $\mu$. I can take $n$ {\bf independent, identically-distributed (i.i.d.)} samples $X_1,X_2,\dots,X_n$ of this distribution. How many times do I need to sample from the distribution to estimate the true value of $\mu$?\\
+    {\bf Definition}: We define an {\bf unbiased estimator} $\hat{\mu}$ (i.e. $\mathbb{E}\left[\hat{\mu}\right]=\mu$):
+    \begin{align*}
+        \hat{\mu}=\frac{1}{n}\sum_{i=1}^nX_i
+    \end{align*}
+    We want $n$ large enough such that for some {\bf error margin} $\epsilon>0$ and {\bf confidence level} $\delta\in[0,1)$:
+    \begin{align*}
+        \mathbb{P}[\hat{\mu}\in[\mu-\epsilon,\mu+\epsilon]]\geq \delta
+    \end{align*}
+    The following lower-bound on $n$ gives us the desired probability:
+    \begin{align*}
+        n\geq\frac{\sigma^2}{\epsilon^2(1-\delta)}
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Weak Law of Large Numbers (WLLN)}
+    For a random variable $\hat{\mu}=\frac{1}{n}\sum_{i=1}^nX_i$ where the $X_1,X_2,\dots,X_n$ are i.i.d. from a distribution with expectation $\mu<\infty$:
+    \begin{align*}
+        \hat{\mu}=\frac{1}{n}\sum_{i=1}^nX_i\xrightarrow{\text{i.p.}}\mu
+    \end{align*}
+    This means that as we sample more and more times, the variance of the possible outcomes we get approaches $0$ (i.e. $\text{Var}\left(\hat{\mu}\right)\rightarrow 0$), which explains why sampling more times let's us be more confident in the accuracy of our estimate.\\
+    {\it Sidenote: There is also a Strong Law of Large Numbers (SLLN) which shows a stronger type of convergence, but for this class, you can just treat SLLN and WLLN as being the same.}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Recap: Discrete Random Variables}
+    Here is a table of statistics of common discrete distributions:
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            Name & PMF & Expectation & Variance \\
+            \hline
+            Bernoulli & $\begin{cases}p&\text{if }k=1\\1-p&\text{if }k=0\end{cases}$ & $p$ & $p(1-p)$ \\
+            Binomial & $\binom{n}{k}p^k(1-p)^{n-k}$ & $np$ & $np(1-p)$ \\
+            Geometric & $p(1-p)^{k-1}$ & $\frac{1}{p}$ & $\frac{1-p}{p^2}$ \\
+            Poisson & $\frac{\lambda^ke^{-\lambda}}{k!}$ & $\lambda$ & $\lambda$ \\
+            \hline 
+        \end{tabular}
+    \end{center}
+    {\it Note: I would recommend putting formulas in the notes on your cheat sheet! You can use these values on exams without proof.}
+\end{frame}
+
+\end{document}

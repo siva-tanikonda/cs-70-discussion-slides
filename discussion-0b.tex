@@ -1,0 +1,92 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 0B}
+\date{August 30, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Propositional Logic}
+    We define $A$ and $B$ as {\bf propositions} (true or false statements). We have the following notation and translations in propositional logic:
+    \begin{center}
+        \begin{tabular}{c|c}
+            Propositional Logic & English\\
+            \hline
+            $\neg A$ & $A$ is not true\\
+            $A\wedge B$ & $A$ and $B$ are true\\
+            $A\vee B$ & $A$ or $B$ is true\\
+            $A\implies B$ & If $A$ is true, then $B$ is true\\\
+            $A\equiv B$ & $A$ is true {\bf if and only if (iff)} $B$ is true
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Set Notation}
+    A set is a collection of unique, unordered elements. Here is some notation for sets and their translations ($P$ is a {\bf propositional function}, which is just a function that outputs ``true'' or ``false'' based on an input $x$):
+    \begin{center}
+        \begin{tabular}{c|c}
+            Set Notation & English\\
+            \hline
+            $S=\{a_1,a_2,\dots,a_n\}$ & $S$ is a set with $n$ elements: $a_1,a_2,\dots,a_n$\\
+            $x\in S$ & $S$ contains element $x$\\
+            $x\not\in S$ & $S$ does not contain element $x$\\
+            $\{x|P(x)\}$ & Set with all values $x$ where $P(x)$ is true\\
+            $A\cap B$ & Set with all $x$ where $x\in A\wedge x\in B$\\
+            $A\cup B$ & Set with all $x$ where $x\in A\vee x\in B$\\
+            $A\backslash B$ & Set with all $x$ where $x\in A\wedge x\not\in B$
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Special Sets}
+    Here are some useful sets to know:
+    \begin{center}
+        \begin{tabular}{c|c}
+            Set & English\\
+            \hline
+            $\mathbb{R}$ & Set of all real numbers\\
+            $\mathbb{Q}$ & Set of all rational numbers\\
+            $\mathbb{Z}$ & Set of all integers\\
+            $\mathbb{N}$ & Set of all natural numbers (in this class, $0\in\mathbb{N}$)
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Miscellaneous}
+    Here are some notations to know:
+    \begin{center}
+        \begin{tabular}{c|c}
+            Propositional Logic & English\\
+            \hline
+            $(\forall x\in S)(P(x))$ & For all elements $x\in S$, $P(x)$ is true\\
+            $(\exists x\in S)(P(x))$ & There is some $x\in S$ where $P(x)$ is true\\
+            $a\vert b$ & $b$ is divisible by $a$
+        \end{tabular}
+    \end{center}
+    The following are always true for any propositions $A$, $B$, and $C$:
+    \begin{gather*}
+        (A\implies B)\equiv(\neg A\vee B)\\
+        [A\wedge (B\vee C)]\equiv[(A\wedge B)\vee(A\wedge C)]\\
+        [A\vee (B\wedge C)]\equiv[(A\vee B)\wedge(A\vee C)]
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{DeMorgan's Law}
+    There is a specific way in which you can propagate negations ($\neg$) through conjunctions ($\wedge$) and disjunctions ($\vee$). The following facts always hold true (for any set $S$ and propositions $A$ and $B$):
+    \begin{gather*}
+        \neg(A\wedge B)\equiv\neg A\vee\neg B\\
+        \neg(A\vee B)\equiv\neg A\wedge\neg B\\
+        \neg(\forall x\in S)(P(x))\equiv(\exists x\in S)(\neg P(x))\\
+        \neg(\exists x\in S)(P(x))\equiv(\forall x\in S)(\neg P(x))
+    \end{gather*}
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,56 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 5B}
+\date{October 4, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Error-Correcting Codes}
+    {\bf Problem}: We want to send a message of length $n$ ($n$ numbers $v_0,v_1,\dots,v_{n-1}$) across an unreliable channel, but still ensure that the receiver can reconstruct the original message.\\
+    {\bf Solution}: Redundancy! Send more than $n$ packets to account for possible errors. But, what should these extra packets be? How does the receiver reconstruct the original message using the extra packets?
+\end{frame}
+
+\begin{frame}
+    \frametitle{Erasure Errors}
+    {\bf Problem}: We want to tolerate up to $k$ of our packets being erased (i.e. not making it to the destination).\\
+    {\bf Solution}: \begin{itemize}
+        \item Sender: Create a degree $\leq n-1$ polynomial $P$ with our $n$ packets. We use points $(0,v_0),(1,v_1),\dots,(n-1,v_{n-1})$ to construct the polynomial with Lagrange Interpolation.
+        \item Sender: Send $n+k$ unique points on the polynomial. In particular, $(0,P(0)),(1,P(1)),\dots,(n+k-1,P(n+k-1))$ across the channel
+        \item Receiver: Use Lagrange Interpolation on $n$ of the received points to get the original polynomial $P$
+        \item Receiver: Evaluate $P$ at the $n$ ``packet positions'' to get the original message: $v_0=P(0),v_1=P(1),\dots,v_{n-1}=P(n-1)$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{General Errors}
+    {\bf Problem}: We want to tolerate up to $k$ of our packets being corrupted (i.e. their values are modified over the channel).\\
+    {\bf Solution}: \begin{itemize}
+        \item Sender: Create a degree $\leq n-1$ polynomial $P$ with our $n$ packets. We use points $(0,v_0),(1,v_1),\dots,(n-1,v_{n-1})$ to construct the polynomial with Lagrange Interpolation.
+        \item Sender: Send $n+2k$ unique points on the polynomial. In particular, $(0,P(0)),(1,P(1)),\dots,(n+2k-1,P(n+2k-1))$ across the channel
+        \item Receiver: Gets packets $(0,r_0),(1,r_1),\dots,(n+2k-1,r_{n+2k-1})$ where at most $k$ points are corrupted (i.e. $r_i\neq P(i)$)
+        \item Receiver: Use Berlekamp-Welch Algorithm to get $P$
+        \item Receiver: Evaluate $P$ at the $n$ ``packet positions'' to get the original message: $v_0=P(0),v_1=P(1),\dots,v_{n-1}=P(n-1)$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Berlekamp-Welch Algorithm}
+    {\bf Error Polynomial}: $E(i)=(i-e_0)(i-e_1)...(i-e_{k-1})$, where $e_j=\text{a {\it potential} $i$-value where }P(i)\neq r_{i}$ (i.e. packet $i$ is corrupted)\\
+    {\bf Product Polynomial}: $Q(i)=P(i)E(i)=r_iE(i)$
+    \begin{itemize}
+        \item If $P(i)\neq r_i$, then $E(i)=0$, so $P(i)E(i)=r_iE(i)$
+        \item If $P(i)=r_i$, then $P(i)E(i)=r_iE(i)$
+    \end{itemize}
+    {\it Important}: $\deg(E)\leq k$, $\deg(P)\leq n-1$, and $\deg(Q)\leq k+n-1$\\
+    {\bf Solution}: Solve
+    \begin{gather*}
+    (\forall i\in\{0,1,...,n+2k-1\})\left[\sum_{j=0}^{n+k-1}a_ji^j=r_i\left(x_k+\sum_{j=0}^{k-1}b_ji^j\right)\right]
+    \end{gather*}
+    $n+2k$ linear equations and $n+2k$ unknowns ($r_i$s are already known), so use row reduction to solve for all $a_j$s and $b_j$s. Now, we know $E$ and $Q$, and we know $P(x)=\frac{Q(x)}{E(x)}$, so use polynomial division to get $P$.
+\end{frame}
+
+\end{document}

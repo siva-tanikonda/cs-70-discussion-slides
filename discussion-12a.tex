@@ -1,0 +1,80 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 12A}
+\date{November 20, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Continuous Random Variable}
+    {\bf Problem}: Let's say we are no longer dealing with random variables that take a countable set of values (ex. Geometric, Binomial, and Poisson random variables), and want to now represent a continuous space.\\
+    {\bf Solution}: A {\bf continuous random variable} is a random variable $X$ where for each $x\in\mathbb{R}$, $\mathbb{P}[X=x]=0$, but you have $\mathbb{P}[X\in\mathbb{R}]=1$ (i.e. the probability of our random variable taking a {\it specific} value is infinitely small, but the probability that it can take some {\it range} of values is not necessarily zero).
+\end{frame}
+
+\begin{frame}
+    \frametitle{Cumulative Density Function (CDF)}
+    {\bf Problem}: If we can no longer meaningfully define PMFs (i.e. $\mathbb{P}[X=x]=0$ for any $x\in\mathbb{R}$) for a continuous random variable, how do we define a continuous random variable and its distribution?\\
+    {\bf Solution}: We define a {\bf cumulative density function (CDF)}, which is just a function $F_X(x)=\mathbb{P}[X\leq x]$. Any CDF $F_X$ needs the following properties to hold:
+    \begin{itemize}
+        \item Non-decreasing: $(\forall a\leq b)(F_X(a)\leq F_X(b))$
+        \item Limits: $\lim_{x\rightarrow\infty}F_X(x)=1$ and $\lim_{x\rightarrow-\infty}F_X(x)=0$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Probability Density Function (PDF)}
+    {\bf Problem}: Is there an analogue to PMFs for continuous random variables?\\
+    {\bf Solution}: We define the {\bf probability density function (PDF)} as a function $f_X(x)=\frac{d}{dx}F_X(x)$. Any PDF $f_X$ needs the following to hold:
+    \begin{itemize}
+        \item Non-negativity: $(\forall x\in\mathbb{R})(f_X(x)\geq 0)$
+        \item Integrates to $1$: $\int_{-\infty}^\infty f_X(x)dx=1$
+    \end{itemize}
+    An important fact to note is:
+    \begin{align*}
+        \mathbb{P}[a\leq X\leq b]=\int_a^bf_X(x)dx=F_X(b)-F_X(a)
+    \end{align*}
+    {\it Important: PDFs are not probabilities, just densities!}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Joint Distributions \& Independence}
+    {\bf Problem}: What about joint distributions and independence with continuous random variables?\\
+    {\bf Solution}: $f_{X,Y}(x,y)$ is the PDF of the joint distribution for random variables $X$ and $Y$, and $F_{X,Y}(x,y)=\mathbb{P}[X\leq x,Y\leq y]$. Our definition of independence is that continuous random variables $X$ and $Y$ are independent iff:
+    \begin{align*}
+        f_{X,Y}(x,y)=f_X(x)f_Y(y),F_{X,Y}(x,y)=F_X(x)F_Y(y)
+    \end{align*}
+    You only need to show one of the above to prove independence (because either both hold or neither hold). You can also use the total probability rule with continuous random variables (consider event $A$ and continuous random variable $X$):
+    \begin{align*}
+        \mathbb{P}[A]=\int_{-\infty}^\infty\mathbb{P}[A|X=x]f_X(x)dx
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Expectation, Variance, Covariance, etc.}
+    For continuous random variables, a rule of thumb for calculations is that the math is generally the same as with discrete random variables except you use integrals and PDFs instead of summations and PMFs:
+    \begin{itemize}
+        \item $\mathbb{E}[X]=\int_{-\infty}^\infty xf_X(x)dx$
+        \item $\mathbb{E}[XY]=\int_{-\infty}^\infty\int_{-\infty}^\infty xyf_{X,Y}(x,y)dydx$
+        \item $\mathbb{E}[g(X)]=\int_{-\infty}^\infty g(x)f_X(x)dx$ 
+        \item $\text{Var}(X)=\mathbb{E}\left[(X-\mathbb{E}[X])^2\right]=\mathbb{E}\left[X^2\right]-(\mathbb{E}[X])^2$
+        \item $\text{Cov}(X,Y)=\mathbb{E}[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])]=\mathbb{E}[XY]-\mathbb{E}[X]\mathbb{E}[Y]$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Exponential Distribution}
+    {\bf Problem}: Consider the continuous-time analogue for the geometric random variable. What is the expected amount of time until we get a success?\\
+    {\bf Solution}: We define a random variable $X\sim\text{Exponential}(\lambda)$ (where $\lambda>0$) as a random variable following these properties:
+    \begin{itemize}
+        \item PDF: $f_X(x)=\begin{cases}\lambda e^{-\lambda x}&\text{if }x\geq 0\\0&\text{else}\end{cases}$
+        \item CDF: $F_X(x)=\begin{cases}1-e^{-\lambda x}&\text{ if }x\geq 0\\0&\text{else}\end{cases}$
+        \item Memorylessness: $\mathbb{P}[X\geq x+c|X\geq x]=\mathbb{P}[X\geq c]$
+        \item $\mathbb{E}[X]=\frac{1}{\lambda},\text{Var}(X)=\frac{1}{\lambda^2}$
+    \end{itemize}
+    {\it Note: Continuous distributions are uniquely defined by their CDF or PDF}
+\end{frame}
+
+\end{document}

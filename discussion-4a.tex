@@ -1,0 +1,69 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 4A}
+\date{September 25, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Extended Euclid's Algorithm}
+    Finds values $x,y\in\mathbb{Z}$ for some given $a,b\in\mathbb{N}$ such that:
+    \begin{gather*}
+        ax+by=\gcd(a,b)
+    \end{gather*}
+    The efficient algorithm is as follows (return value is of form $(x,y,\gcd(a,b))$):
+    \begin{algorithmic}
+        \Function{e\_gcd}{$a$, $b$}
+            \If {$b=0$}
+                \Return $(1,0,a)$
+            \Else
+                \State $(x,y,z)\gets \Call{e\_gcd}{b,a\bmod b}$
+                \State \Return $(y,x-\lfloor\frac{a}{b}\rfloor y,z)$
+            \EndIf
+        \EndFunction
+    \end{algorithmic}
+    You can use EGCD to get inverses iff (if and only if) $\gcd(a,b)=1$:
+    \begin{gather*}
+        a^{-1}\equiv x\pmod b\\
+        b^{-1}\equiv y\pmod a 
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fermat's Little Theorem}
+    Following is true for any prime $p$ and $a\not\equiv 0\pmod p$:
+    \begin{gather*}
+        a^{p-1}\equiv 1\pmod p
+    \end{gather*}
+    The following general variant is true for any prime $p$ and {\it any} $a\in\mathbb{Z}$:
+    \begin{gather*}
+        a^p\equiv a\pmod p
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Chinese Remainder Theorem}
+    {\bf Problem Setup}: You're given variables $m_1,m_2,...,m_n\in\mathbb{N}^+$ and $a_1,a_2,...,a_n\in\mathbb{Z}$ where $(\forall i\neq j)(\gcd(m_i,m_j)=1)$ (the set of $m_i$'s is pairwise {\it coprime}). We want to find a $x\in\mathbb{Z}$ where:
+    \begin{gather*}
+        x\equiv a_1\pmod {m_1}\\
+        x\equiv a_2\pmod {m_2}\\
+        \vdots\\
+        x\equiv a_n\pmod {m_n}
+    \end{gather*}
+    {\bf Conclusion}: There always exists a {\it unique} solution $x\pmod M$ where $M=\prod_{i=1}^n m_i$.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Chinese Remainder Theorem (Cont.)}
+    {\bf Solution}: For the system $(\forall i\in\{1,2,...,n\})(x\equiv a_i\pmod {m_i})$ where $(\forall i\neq j)(\gcd(m_i,m_j)=1)$:
+    \begin{gather*}
+        x\equiv\sum_{i=1}^n a_ib_i\pmod M\\
+        b_i=\frac{M}{m_i}\left[\left(\frac{M}{m_i}\right)^{-1}\pmod{m_i}\right]\\
+        M=\prod_{i=1}^n m_i
+    \end{gather*}
+\end{frame}
+
+\end{document}

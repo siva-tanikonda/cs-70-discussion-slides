@@ -1,0 +1,44 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 14B}
+\date{December 6, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Markov Chains}
+    {\bf Periodicity}: The periodicity of a state $x$ in a Markov chain is as follows:
+    \begin{align*}
+        \gcd\left(\left\{t\in\mathbb{N}|P_{x,x}^{(t)}>0\right\}\right)
+    \end{align*}
+    where $P_{x,x}^{(t)}$ is the probability of being at state $x$ at time $t$ if you started at state $x$ at time $0$.\\
+    {\bf Aperiodic}: A Markov chain is aperiodic iff every state in the chain has periodicity $1$ (otherwise, the chain is {\bf periodic}).\\
+    {\bf Irreducible}: A Markov chain is irreducible iff every state can reach every other state in the chain within finite time (otherwise, the chain is {\bf reducible}).
+\end{frame}
+
+\begin{frame}
+    \frametitle{Stationary Distribution}
+    $\pi$ (a row vector) is a {\bf stationary distribution} iff: \begin{align*}
+        \pi=\pi P
+    \end{align*}
+    This means that if my distribution of states I can be in at time $t$ is $\pi$, then $\pi$ will be the distribution of states I can be in at time $t+1$ (i.e. my distribution of states is now constant from time $t$ onwards). You can solve for the stationary distribution using the following system of equations:
+    \begin{gather*}
+        (\forall x\in\{1,2,\dots,n\})\left(\pi(x)=\sum_{y=1}^n\pi(y)P_{y,x}\right)\\
+        \sum_{x=1}^n\pi(x)=1
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fundamental Theorem of Markov Chains}
+    This theorem says that if a Markov chain is {\it aperiodic} and {\it irreducible}, then:
+    \begin{align*}
+        \lim_{t\rightarrow\infty}\pi_t=\pi
+    \end{align*}
+    What this says is that as we run more and more steps on our Markov chain, our distribution of states we will be in will converge to the stationary distribution.\\
+    {\it Note: It doesn't matter what our initial distribution $\pi_0$ is!} 
+\end{frame}
+
+\end{document}

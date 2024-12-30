@@ -1,0 +1,63 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 10A}
+\date{November 6, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Joint Distributions}
+    {\bf Problem}: What if we want to calculate the probabilities of two different random variables taking on particular values simultaneously?\\
+    {\bf Solution}: We define the probability that $X=x$ and $Y=y$ as:
+    \begin{gather*}
+        \mathbb{P}[X=x,Y=y]=\mathbb{P}[X=x\cap Y=y]
+    \end{gather*}
+    $X$ and $Y$ are independent iff for all $x,y\in\mathbb{R}$:
+    \begin{gather*}
+        \mathbb{P}[X=x,Y=y]=\mathbb{P}[X=x]\mathbb{P}[Y=y]
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Conditional Distributions}
+    {\bf Problem}: How do we get the probability of a random variable taking a specific value, conditioned on the value of another random variable?\\
+    {\bf Solution}: We say that the probability that $X=x$ conditioned on $Y=y$ is:
+    \begin{gather*}
+        \mathbb{P}[X=x|Y=y]=\frac{\mathbb{P}[X=x,Y=y]}{\mathbb{P}[Y=y]}
+    \end{gather*}
+    You can also condition on events. For example, for event $A$:
+    \begin{gather*}
+        \mathbb{P}[X=x|A]=\frac{\mathbb{P}[X=x\cap A]}{\mathbb{P}[A]}
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Expectation}
+    {\bf Problem}: How do we get the ``average'' value of a random variable?\\
+    {\bf Solution}: We define the {\bf expectation} of a random variable $X$ as the ``average'' value that the random variable takes. For a discrete random variable $X$:
+    \begin{gather*}
+        \mathbb{E}[X]=\sum_x x\mathbb{P}[X=x]
+    \end{gather*}
+    For a non-negative discrete random variable $X$ ({\bf tail-sum}):
+    \begin{gather*}
+        \mathbb{E}[X]=\sum_{x=1}^\infty\mathbb{P}[X\geq x]
+    \end{gather*}
+    You can also take the expectation of functions of random variables ({\bf Law of the Unconscious Statistician (LOTUS)}):
+    \begin{gather*}
+        \mathbb{E}[f(X)]=\sum_yy\mathbb{P}[f(X)=y]=\sum_xf(x)\mathbb{P}[X=x]
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Linearity of Expecations}
+    For a set of random variables $X_1,X_2,\dots,X_n$, and constants $c_1,c_2,\dots,c_n$, we have:
+    \begin{gather*}
+        \mathbb{E}\left[\sum_{i=1}^nc_iX_i\right]=\sum_{i=1}^nc_i\mathbb{E}[X_i]
+    \end{gather*}
+    {\it Key Importance}: It doesn't matter if each of the $X_i$s are independent or not! We can always use the above formula.
+\end{frame}
+
+\end{document}

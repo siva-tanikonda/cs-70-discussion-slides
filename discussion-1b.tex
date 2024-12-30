@@ -1,0 +1,43 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 1B}
+\date{September 6, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Induction Proof}
+{\bf Goal}: Prove that for propositional function $P$, $(\forall n\in\mathbb{N})(P(n))$\\
+{\bf Approach}: Do the following:
+\begin{enumerate}
+    \item Base Case: Prove $P(0)$ is true
+    \item Inductive Hypothesis: Just state: ``Assume that for some $n\in\mathbb{N}$, $P(n)$ is true''
+    \item Inductive Step: Prove that $P(n)\implies P(n+1)$ for any $n\in\mathbb{N}$
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Strong Induction}
+{\bf Goal}: Prove that for propositional function $P$, $(\forall n\in\mathbb{N})(P(n))$\\
+{\bf Approach}: Do the following:
+\begin{enumerate}
+    \item Base Case(s): Prove enough base cases (ex: if proving $P(n)$ requires $P(n-2)$, you need base cases for $n=0$ and $n=1$). We will say that $n=0,n=1,\dots,n=k-1$ are base cases.
+    \item Inductive Hypothesis: Just state: ``Assume that for some $n\in\mathbb{N}$ where $n\geq k$, $P(m)$ is true for all $m<n$''
+    \item Inductive Step: Prove that $\left[(\forall m\in\{0,1,...,n-1\})(P(m))\right]\implies P(n)$\\
+    \it i.e. Instead of just using $P(n-1)$ to prove $P(n)$, we use as many of the previous $n$ ``steps'' to prove $P(n)$\rm
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Some Tips}
+\begin{itemize}
+    \item Try to use simple induction whenever possible (less to write)
+    \item {\bf Strengthening Induction Hypothesis}: Oddly, it can be easier to prove a statement under even stricter conditions (ex. it can be easier to prove $f(n)\leq 2$ instead of $f(n)\leq 4$ using induction)
+    \item A very important sign to use induction is if you are trying to prove a formula/statement for {\it only natural numbers}.
+\end{itemize}
+\end{frame}
+
+\end{document}

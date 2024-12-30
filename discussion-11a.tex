@@ -1,0 +1,38 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 11A}
+\date{November 13, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Conditional Expectation}
+    {\bf Problem}: How do I get the expectation of a random variable $X$ conditioned on some other random variable $Y$ (i.e. what is the ``average'' value of $X$ given that I know $Y=k$ for constant $k$)?\\
+    {\bf Solution}: We define the {\bf conditional expectation} of a discrete random variable $X$:
+    \begin{align*}
+        \mathbb{E}[X|Y=k]=\sum_{i} i\mathbb{P}[X=i|Y=k]
+    \end{align*}
+    You can also condition on any event $A$:
+    \begin{align*}
+        \mathbb{E}[X|A]=\sum_{i}i\mathbb{P}[X=i|A]
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Total Expectation/Wald's Identity}
+    {\bf Problem}: How do I calculate $\mathbb{E}[X]$ given that I can only calculate $\mathbb{E}[X|Y=k]$ for some random variable $Y$ and any constant $k$?\\
+    {\bf Solution}: We have the formula for {\bf total expectation}:
+    \begin{align*}
+        \mathbb{E}[X]=\sum_{i}\mathbb{E}[X|Y=i]\mathbb{P}[Y=i]
+    \end{align*}
+    If we view $\mathbb{E}[X|Y]$ as a function of $Y$, we get {\bf Wald's Identity}:
+    \begin{align*}
+        \mathbb{E}[X]=\mathbb{E}[\mathbb{E}[X|Y]]
+    \end{align*}
+    {\it Note: Wald's Identity is significantly easier to perform calculations with!}
+\end{frame}
+
+\end{document}

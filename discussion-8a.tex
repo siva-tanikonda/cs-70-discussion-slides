@@ -1,0 +1,52 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 8A}
+\date{October 23, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Sample Space}
+    {\bf Background}: Every discrete probability problem can be represented as an ``experiment''. You have a bunch of possible outcomes of the experiment, and each of these outcomes has a particular probability of happening.\\
+    {\bf Notation}:\begin{itemize}
+        \item $\Omega$ is the sample space of our experiment, and it contains all the possible outcomes of our experiment.
+        \item Ex: for flipping two coins, you can have $\Omega_1=\{\text{TT},\text{TH},\text{HT},\text{HH}\}$ or $\Omega_2=\{0,1,2\}$ be the sample space.
+        \item There are often multiple ways to define the sample space! Pick which definition is better based on the granularity you need for the problem.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Events}
+    {\bf Sample Point}: Some possible outcome $\omega$ from our experiment (i.e. $\omega\in\Omega$). An example for the coin-flipping scenario is: $\omega=\text{TH}$.\\
+    {\bf Event}: Some subset $E$ of our sample space (i.e. $E\subseteq\Omega$). An example for the  coin-flipping scenario is: $E=$ event that we get an even number of heads $=\{\text{TT},\text{HH}\}$
+\end{frame}
+
+\begin{frame}
+    \frametitle{Probability Space}
+    {\bf Probability Measure}: We define some function/measure $\mathbb{P}$ that maps sample points and events to real numbers. $\mathbb{P}$ satisfies all of the following:
+    \begin{itemize}
+        \item Non-Negativitiy: $(\forall\omega\in\Omega)(\mathbb{P}[\omega]\geq 0)$
+        \item Unit-Measure: $\sum_{\omega\in\Omega}\mathbb{P}[\omega]=1$
+    \end{itemize}
+    $\mathbb{P}[\omega]$ tells us the probability of a particular sample point being the result of our experiment, and $\mathbb{P}[E]$ tells us the probability of a particular event being observed (i.e. one of the sample points $\omega\in E$ are observed: $\mathbb{P}[E]=\sum_{\omega\in E}\mathbb{P}[\omega]$).
+\end{frame}
+
+\begin{frame}
+    \frametitle{Probability Space (Cont.)}
+    Here are some useful formulas/facts:
+    \begin{enumerate}
+        \item For a {\bf uniform probability space} (each experiment outcome is equally-likely): 
+        \begin{gather*}
+            \mathbb{P}[E]=\frac{|E|}{|\Omega|}
+        \end{gather*}
+        \item Principle of Inclusion-Exclusion:
+        \begin{gather*}
+            \mathbb{P}\left[\bigcup_{i=1}^n E_i\right]=\sum_{s=1}^n(-1)^{s-1}\sum_{\substack{S\subseteq\{1,2,...,n\}\\|S|=s}}\mathbb{P}\left[\bigcap_{i\in S}E_i\right]
+        \end{gather*}
+    \end{enumerate}
+\end{frame}
+
+\end{document}

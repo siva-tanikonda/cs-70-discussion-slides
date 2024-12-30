@@ -1,0 +1,60 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 3B}
+\date{September 20, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Modulo Operation}
+    {\bf Basic Definition}: $a\bmod m=\text{remainder of }a\text{ divided by }m$ (ex. $14\bmod 5=4$)\\
+    {\bf Residue Classes}: $a\equiv b\pmod m$ means $(\exists k\in\mathbb{Z})(a=b+km)$ (i.e. $b-a$ is a multiple of $m$)
+    \begin{itemize}
+        \item In this case, we say that $a$ and $b$ are in the same ``residue class'' modulo $m$
+    \end{itemize}
+    Some useful formulas to note:
+    \begin{itemize}
+        \item $a+b\equiv (a\bmod m)+(b\bmod m)\pmod m$
+        \item $a-b\equiv (a\bmod m)-(b\bmod m)\pmod m$
+        \item $a\times b\equiv (a\bmod m)\times (b\bmod m)\pmod m$
+        \item $a^b\equiv (a\bmod m)^b\pmod m$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Euclid's Algorithm}
+    {\bf Problem}: How do we easily get the greatest-common divisor (the largest integer that divides two numbers $a$ and $b$) of two numbers?\\
+    {\bf Algorithm}:
+    \begin{gather*}
+    \gcd(a,b)=\begin{cases}\gcd(b,a\bmod b)&\text{if }b>0\\a&\text{else}\end{cases}
+    \end{gather*}
+    Example:
+    \begin{align*}
+    &\gcd(24,42)=\gcd(42,24\bmod 42)&\\
+    &\phantom{\gcd(24,42)}=\gcd(42,24)&\\
+    &\phantom{\gcd(24,42)}=\gcd(24,42\bmod 24)&\\
+    &\phantom{\gcd(24,42)}=\gcd(24,18)&\\
+    &\phantom{\gcd(24,42)}=\gcd(18,24\bmod 18)&\\
+    &\phantom{\gcd(24,42)}=\gcd(18,6)&\\
+    &\phantom{\gcd(24,42)}=\gcd(6,18\bmod 6)&\\
+    &\phantom{\gcd(24,42)}=\gcd(6,0)=6&
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Inverses}
+    An inverse of an integer $a$ in modspace $m$ is another integer $a^{-1}$ such that:
+    \begin{gather*}
+        a\times a^{-1}\equiv 1\pmod m
+    \end{gather*}
+    Example: Inverse of $2$ mod $5$ is $3$ (i.e. $2^{-1}\equiv 3\pmod 5$):
+    \begin{gather*}
+        2(3)\equiv 6\equiv 1\pmod 5
+    \end{gather*}
+    $a\pmod m$ has an inverse iff (if and only if) $\gcd(a,m)=1$ (i.e. $a$ and $m$ are {\bf coprime}). Multiplying by modular inverses is the way to emulate ``division'' in modspace.
+\end{frame}
+
+\end{document}

@@ -1,0 +1,41 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 7B}
+\date{October 18, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}[fragile]
+    \frametitle{Halting Problem}
+    {\bf Problem}: Given any program \texttt{P} and any input \texttt{x}, can you create a program \texttt{TestHalt(P,x)} that checks if \texttt{P(x)} halts?\\
+    {\bf Solution}: No. Consider designing \texttt{P}:
+    \begin{verbatim}
+    function P(x):
+        if TestHalt(P,x) returns true:
+            loop forever
+        else:
+            return nothing
+    \end{verbatim}
+    \texttt{TestHalt} can never work on our \texttt{P} (in fact, \texttt{P} is a non-executable program), so a correct implementation of \texttt{TestHalt} can never exist ({\bf self-reference} proof!).
+\end{frame}
+
+\begin{frame}
+    \frametitle{Computability}
+    {\bf Problem}: How do we prove that a problem $X$ can be solved?\\
+    {\bf Solution}: Just write a program \texttt{P} that can solve your problem!
+\end{frame}
+
+\begin{frame}
+    \frametitle{Reductions}
+    {\bf Problem}: How do we prove a problem $X$ can't be solved?
+    {\bf Solution}: Prove that being able to solve $X$ implies that I can solve an unsolvable problem. In this class, we often establish the implication:
+    \begin{gather*}
+        \text{$X$ can be solved}\implies\text{Halting Problem can be solved}
+    \end{gather*}
+    Since we know (ground-truth) that the Halting Problem has no solution, if the above implication is true, then we have no choice but to conclude $X$ can't be solved. Therefore, the Halting Problem {\bf reduces} to problem $X$ (i.e. solving the Halting Problem is at most as hard as solving problem $X$).
+\end{frame}
+
+\end{document}

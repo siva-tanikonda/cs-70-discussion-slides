@@ -1,0 +1,37 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 4B}
+\date{September 27, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{RSA Algorithm}
+    {\bf Goal}: Alice wants to send a secure message to Bob. But, the message channel is insecure.\\
+    {\bf Algorithm}: We will do the following:
+    \begin{enumerate}[1)]
+        \item Bob picks some large, distinct primes $p$ and $q$.
+        \item Bob picks some non-trivial $e,d\in\mathbb{N}$ where $ed\equiv 1\pmod{(p-1)(q-1)}$.
+        \item Bob broadcasts $(N,e)$ to everyone on the network, but keeps $d$, $p$, and $q$ to himself ($N=pq$).
+        \item To send a message $x\in\{0,1,...,N-1\}$, Alice sends an encrypted message $y=x^e\bmod N$ over the channel to Bob. 
+        \item Two things can happen:
+        \begin{itemize}
+            \item Eve could intercept $y$, but since she doesn't know the value $d$, she can't decrypt and get $x$.
+            \item Bob gets $y$, so he performs $y^d\bmod N$ to get the original un-encrypted message (i.e. $y^{d}\equiv x\pmod N$).
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{RSA Algorithm (Cont.)}
+    {\bf Why Secure?}\begin{itemize}
+        \item It is easy to generate large primes $p$ and $q$.
+        \item It is hard to factor numbers (you can't factor $N$ quickly if $N$ is extremeley large, such as if $N$ is $1024$ bits).
+    \end{itemize}
+    {\it Note: RSA assumes that the message value is coprime to $N$}
+\end{frame}
+
+\end{document}

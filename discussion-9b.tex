@@ -1,0 +1,103 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 9B}
+\date{November 1, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Random Variables}
+    {\bf Problem}: We need a way to compute statistics about a sample space (ex. if $\Omega$ is the set of all sequences of $n$ coin flips, and we want to count the average number of heads over all outcomes)\\
+    {\bf Solution}: A random variable is some function $X:\Omega\rightarrow\mathbb{R}$. $X$ is {\it not an event}, but $X=k$ is an event:
+    \begin{gather*}
+        (X=k)\equiv\{\omega\in\Omega|X(\omega)=k\}
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Random Variables (Cont.)}
+    Here are some example probability notations for random variables $X$ and $Y$:
+    \begin{itemize}
+        \item $\mathbb{P}[X=k]=\mathbb{P}[\{\omega\in\Omega:X(\omega)=k\}]$
+        \item $\mathbb{P}[a\leq X\leq b]=\mathbb{P}[\{\omega\in\Omega:a\leq X(\omega)\leq b\}]$
+        \item $\mathbb{P}[X+Y\geq k]=\mathbb{P}[\{\omega\in\Omega:X(\omega)+Y(\omega)\geq k\}]$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Distributions}
+    {\bf Problem}: How do we define the ``spread''/``shape'' of the probabilities of a random variable taking certain values?\\
+    {\bf Solution}: A distribution is some assignment of probabilities (via $\mathbb{P}$) on an arbitrary sample space (a distribution does not need a sample space to define it, and it is solely defined by probability-values). For a discrete distribution:
+    \begin{gather*}
+        \sum_{k\in\mathbb{R}}\mathbb{P}[X=k]=1
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Bernoulli Distribution}
+    {\bf Situation}: We flip a coin with probability $p$, do we get a heads?\\
+    {\bf Definition}: We say $X\sim\text{Bernoulli}(p)$, and:
+    \begin{gather*}
+        \mathbb{P}[X=k]=\begin{cases}
+            p&\text{if }k=1\\
+            1-p&\text{if }k=0\\
+            0&\text{else}
+        \end{cases}
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Binomial Distribution}
+    {\bf Situation}: We flip $n$ coins each with an independent probability $p$ of landing heads. How many heads do we get in total?\\
+    {\bf Definition}: We say $X\sim\text{Binomial}(n,p)$, where:
+    \begin{gather*}
+        \mathbb{P}[X=k]=\begin{cases}
+            \binom{n}{k}p^k(1-p)^{n-k}&\text{if }k\in\{0,1,\dots,n\}\\
+            0&\text{else}
+        \end{cases}
+    \end{gather*}
+    Some facts:
+    \begin{itemize}
+        \item $X=\sum_{i=1}^n X_i$ if $(\forall i\in\{1,2,\dots,n\})(X_i\sim\text{Bernoulli}(p))$ and $X_1,X_2,\dots,X_n$ are mutually independent
+        \item $X+Y\sim\text{Binomial}(m+n,p)$ if $Y\sim\text{Binomial}(m,p)$ and $X$ and $Y$ are independent
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Geometric Distribution}
+    {\bf Situation}: We flip a coin with heads probability $p$ and we stop when we land our first heads. How many times do we flip the coin?\\
+    {\bf Definition}: We say $X\sim\text{Geometric}(p)$, where:
+    \begin{gather*}
+        \mathbb{P}[X=k]=\begin{cases}
+            p(1-p)^{k-1}&\text{if }k\in\{1,2,\dots\}\\
+            0&\text{else}
+        \end{cases}
+    \end{gather*}
+    Some facts:
+    \begin{itemize}
+        \item $\mathbb{P}[X>k]=(1-p)^k$
+        \item {\bf Memoryless}: For $n\geq m$, $\mathbb{P}[X>n|X>m]=(1-p)^{n-m}$, meaning that if I have already failed to land heads $m$ times, it doesn't mean I will have a heads anytime soon (each flip is independent).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Poisson Distribution}
+    {\bf Situation}: We have memoryless arrivals in some finite time interval. In particular, we have an average of $\lambda$ arrivals within our chosen time slice. How many arrivals do we get in our interval?\\
+    {\bf Definition}: We say $X\sim\text{Poisson}(\lambda)$, where:
+    \begin{gather*}
+        \mathbb{P}[X=k]=\begin{cases}
+            \frac{e^{-\lambda}\lambda^k}{k!}&\text{if }k\in\{0,1,\dots\}\\
+            0&\text{else}
+        \end{cases}
+    \end{gather*}
+    Some facts:
+    \begin{itemize}
+        \item If $X$ represents arrivals in times $[a,b]$, $Y$ represents arrivals in times $[c,d]$, and $b<c$, then $X$ and $Y$ are independent.
+        \item $X+Y\sim\text{Poisson}(\lambda+\mu)$ if $Y\sim\text{Poisson}(\mu)$ and $X$ and $Y$ are independent
+    \end{itemize}
+\end{frame}
+
+\end{document}

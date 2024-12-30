@@ -1,0 +1,62 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 1A}
+\date{September 4, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Direct Proof}
+{\bf Goal}: Prove $A\implies B$\\
+{\bf Approach}: Do the following in order:
+\begin{enumerate}
+    \item Assume $A$ is true
+    \item Do some mathematical/logical steps...
+    \item State that therefore, $B$ is true
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Contraposition Proof}
+{\bf Goal}: Prove $A\implies B$\\
+{\bf Approach}: Do the following:
+\begin{enumerate}
+    \item State that you will prove $\neg B\implies\neg A$ instead (this is logically equivalent to proving $A\implies B$)
+    \item Assume $\neg B$ is true
+    \item Do some mathematical/logical steps\dots
+    \item State that therefore, $\neg A$ is true
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Contradiction Proof}
+{\bf Goal}: Prove $A\implies B$\\
+{\bf Approach}: Do the following:
+\begin{enumerate}
+    \item Assume that $A$ is true and $B$ is false
+    \item Do some mathematical/logical manipulations\dots
+    \item Find out some statement $C$ is true
+    \item Do some mathematical/logical manipulations\dots
+    \item Find out that $C$ is now false
+    \item State that you can't have $C\wedge\neg C$, so we have a contradiction, and this means that $A\implies B$
+\end{enumerate}
+{\it Note: Often, proofs that can be proven via contradiction can also be proven with contraposition, and vice versa}
+\end{frame}
+
+\begin{frame}
+\frametitle{Cases Proof}
+{\bf Goal}: Prove $A\implies B$\\
+{\bf Approach}: Do the following:
+\begin{enumerate}
+    \item Split the scenarios where $A$ is true into several cases (we will call these cases/propositions $C_1,C_2,\dots,C_n$). For each case $C_i$:
+    \begin{enumerate}
+        \item Assume that $A$ and $C_i$ are true and do a direct, contraposition, or contradiction proof for why $(A\wedge C_i)\implies B$
+    \end{enumerate}
+    \item Since every case $C_i$ results in $(A\wedge C_i)\implies B$, we know that $A\implies B$.
+\end{enumerate}
+\end{frame}
+
+\end{document}

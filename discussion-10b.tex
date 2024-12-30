@@ -1,0 +1,61 @@
+\documentclass{beamer}
+\usepackage{cancel, algpseudocode, hyperref, tikz, venndiagram, centernot}
+
+\title{CS 70 Discussion 10B}
+\date{November 8, 2024}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Variance}
+    {\bf Problem}: How do we get a numerical measure of the ``spread'' of a random variable (i.e. how much, on average, does the random variable's value differ from its expectation)?\\
+    {\bf Solution}: We define the {\bf variance} of a random variable $X$ as the average ``spread'' of our random variable:$$\text{Var}(X)=\mathbb{E}\left[(X-\mathbb{E}[X])^2\right]=\mathbb{E}\left[X^2\right]-(\mathbb{E}[X])^2$$
+\end{frame}
+
+\begin{frame}
+    \frametitle{Variance (Cont.)}
+    \begin{itemize}
+        \item $X,Y$ independent$\implies\text{Var}(X+Y)=\text{Var}(X)+\text{Var}(Y)$
+        \item For any constant $c\in\mathbb{R}$, $\text{Var}(cX)=c^2\text{Var}(X)$ and $\text{Var}(X+c)=\text{Var}(X)$
+        \item If $X=\sum_{i=1}^n X_i$, where the $X_i$s are random variables:
+        \begin{gather*}
+            \text{Var}(X)=\sum_{i\neq j}\mathbb{E}[X_iX_j]+\sum_i\mathbb{E}\left[X_i^2\right]-\left(\sum_i\mathbb{E}[X_i]\right)^2
+        \end{gather*}
+        \item {\bf Standard Deviation} is just the square root of the variance: $\sigma_X=\sqrt{\text{Var}(X)}$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Covariance}
+    {\bf Problem}: How do we get a numeric value for the relationship between two random variables (i.e. when one random variable increases, does the other one increase as well, or when one random variable increases, does the other one decrease, etc.)\\
+    {\bf Solution}: We define {\bf covariance} of random variables $X$ and $Y$ as:
+    \begin{gather*}
+        \text{Cov}(X,Y)=\mathbb{E}\left[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])\right]=\mathbb{E}[XY]-\mathbb{E}[X]\mathbb{E}[Y]
+    \end{gather*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Covariance (Cont.)}
+    \begin{itemize}
+        \item $X,Y$ independent$\implies\text{Cov}(X,Y)=0$
+        \item For random variables $X$ and $Y$:
+        \begin{gather*}
+            \text{Var}(X+Y)=\text{Var}(X)+\text{Var}(Y)+2\text{Cov}(X,Y)
+        \end{gather*}
+        \item For a random variable $X=\sum_{i=1}^mX_i$ and $Y=\sum_{i=1}^nY_i$:
+        \begin{gather*}
+            \text{Cov}(X,Y)=\sum_{i=1}^m\sum_{j=1}^n\text{Cov}(X_i,Y_j)
+        \end{gather*}
+        \item {\bf Correlation}:
+        \begin{gather*}
+            \text{Corr}(X,Y)=\frac{\text{Cov}(X,Y)}{\sigma_X\sigma_Y}
+        \end{gather*}
+        \begin{itemize}
+            \item The benefit of correlation is $|\text{Corr}(X,Y)|\leq 1$ {\it always} holds.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\end{document}
